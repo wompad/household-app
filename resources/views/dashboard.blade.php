@@ -579,6 +579,52 @@
                 position: relative;
             }
 
+            /* Full screen modal for view household details */
+            #viewHouseholdModal.modal-overlay {
+                padding: 0;
+                align-items: stretch;
+                justify-content: stretch;
+            }
+
+            #viewHouseholdModal .modal-container {
+                max-width: 100%;
+                width: 100%;
+                height: 100vh;
+                max-height: 100vh;
+                border-radius: 0;
+                margin: 0;
+                display: flex;
+                flex-direction: column;
+            }
+
+            #viewHouseholdModal .modal-body {
+                flex: 1;
+                overflow-y: auto;
+            }
+
+            /* Full screen modal for view household details */
+            #viewHouseholdModal.modal-overlay {
+                padding: 0;
+                align-items: stretch;
+                justify-content: stretch;
+            }
+
+            #viewHouseholdModal .modal-container {
+                max-width: 100%;
+                width: 100%;
+                height: 100vh;
+                max-height: 100vh;
+                border-radius: 0;
+                margin: 0;
+                display: flex;
+                flex-direction: column;
+            }
+
+            #viewHouseholdModal .modal-body {
+                flex: 1;
+                overflow-y: auto;
+            }
+
             .modal-header {
                 padding: 1.5rem;
                 border-bottom: 1px solid var(--color-border);
