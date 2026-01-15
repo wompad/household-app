@@ -1305,6 +1305,101 @@
             </div>
         </div>
 
+        <!-- Edit Household Member Modal -->
+        <div id="editMemberModal" class="modal-overlay" onclick="closeEditMemberModalOnOverlay(event)">
+            <div class="modal-container" onclick="event.stopPropagation()">
+                <div class="modal-header">
+                    <h3 class="modal-title">Edit Household Member</h3>
+                    <button type="button" class="modal-close" onclick="closeEditMemberModal()" aria-label="Close">
+                        &times;
+                    </button>
+                </div>
+                <form id="editMemberForm" action="" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <input type="hidden" id="edit_member_id" name="member_id" value="">
+                    <input type="hidden" id="edit_household_id" name="household_id" value="">
+                    <div class="modal-body">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="edit_member_name">
+                                    Name of Child <span class="required">*</span>
+                                </label>
+                                <input type="text" 
+                                       id="edit_member_name" 
+                                       name="name_of_children" 
+                                       class="form-input" 
+                                       required>
+                                <span class="form-error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="edit_member_birthdate">
+                                    Birthdate <span class="required">*</span>
+                                </label>
+                                <input type="date" 
+                                       id="edit_member_birthdate" 
+                                       name="birthdate" 
+                                       class="form-input" 
+                                       required
+                                       onchange="calculateEditAge()">
+                                <span class="form-error"></span>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="edit_member_age">
+                                    Age <span class="required">*</span>
+                                </label>
+                                <input type="number" 
+                                       id="edit_member_age" 
+                                       name="age" 
+                                       class="form-input" 
+                                       min="0" 
+                                       max="150" 
+                                       required>
+                                <span class="form-error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="edit_member_sex">
+                                    Sex <span class="required">*</span>
+                                </label>
+                                <select id="edit_member_sex" 
+                                        name="sex" 
+                                        class="form-select" 
+                                        required>
+                                    <option value="">Select sex</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                                <span class="form-error"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="edit_member_civil_status">
+                                Civil Status <span class="required">*</span>
+                            </label>
+                            <select id="edit_member_civil_status" 
+                                    name="civil_status" 
+                                    class="form-select" 
+                                    required>
+                                <option value="">Select civil status</option>
+                                <option value="single">Single</option>
+                                <option value="married">Married</option>
+                                <option value="widowed">Widowed</option>
+                                <option value="divorced">Divorced</option>
+                                <option value="separated">Separated</option>
+                            </select>
+                            <span class="form-error"></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-cancel" onclick="closeEditMemberModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Update Member</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
         <script>
             function openHouseholdModal() {
                 // Reset to add mode
@@ -1560,6 +1655,7 @@
                                             <th style="padding: 0.5rem; text-align: left; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: var(--color-text);">Sex</th>
                                             <th style="padding: 0.5rem; text-align: left; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: var(--color-text);">Civil Status</th>
                                             <th style="padding: 0.5rem; text-align: left; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: var(--color-text);">Birthdate</th>
+                                            <th style="padding: 0.5rem; text-align: center; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: var(--color-text);">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -1573,6 +1669,7 @@
                         });
                         const sex = member.sex === 'male' ? 'Male' : 'Female';
                         const civilStatus = member.civil_status.charAt(0).toUpperCase() + member.civil_status.slice(1);
+                        const memberDataJson = JSON.stringify(member).replace(/"/g, '&quot;');
                         
                         membersHtml += `
                             <tr style="border-top: 1px solid var(--color-border); ${index % 2 === 0 ? 'background: var(--color-white);' : 'background: var(--color-light-gray);'}">
@@ -1581,6 +1678,24 @@
                                 <td style="padding: 0.75rem 0.5rem; font-size: 0.875rem; color: var(--color-text);">${sex}</td>
                                 <td style="padding: 0.75rem 0.5rem; font-size: 0.875rem; color: var(--color-text);">${civilStatus}</td>
                                 <td style="padding: 0.75rem 0.5rem; font-size: 0.875rem; color: var(--color-text);">${birthdate}</td>
+                                <td style="padding: 0.75rem 0.5rem; text-align: center;">
+                                    <button onclick="openEditMemberModalFromData(this)" 
+                                            data-member-id="${member.id}"
+                                            data-member='${memberDataJson}'
+                                            style="padding: 0.375rem 0.75rem; margin: 0 0.25rem; background: var(--color-dole-blue); color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.8125rem; font-weight: 500; transition: all 0.2s ease;"
+                                            onmouseover="this.style.background='var(--color-dole-blue-light)'"
+                                            onmouseout="this.style.background='var(--color-dole-blue)'"
+                                            title="Edit Member">
+                                        Edit
+                                    </button>
+                                    <button onclick="deleteMember(${member.id})" 
+                                            style="padding: 0.375rem 0.75rem; margin: 0 0.25rem; background: #EF4444; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.8125rem; font-weight: 500; transition: all 0.2s ease;"
+                                            onmouseover="this.style.background='#DC2626'"
+                                            onmouseout="this.style.background='#EF4444'"
+                                            title="Delete Member">
+                                        Delete
+                                    </button>
+                                </td>
                             </tr>
                         `;
                     });
@@ -1852,6 +1967,113 @@
                         title: 'Error',
                         text: error.message || 'Failed to save members. Please try again.',
                     });
+                });
+            }
+
+            // Edit Member Functions
+            function openEditMemberModalFromData(button) {
+                const memberId = button.getAttribute('data-member-id');
+                const memberDataJson = button.getAttribute('data-member').replace(/&quot;/g, '"');
+                const memberData = JSON.parse(memberDataJson);
+                openEditMemberModal(memberId, memberData);
+            }
+
+            function openEditMemberModal(memberId, memberData) {
+                // Set form action URL
+                const form = document.getElementById('editMemberForm');
+                form.action = `/household-members/${memberId}`;
+                
+                // Populate form fields
+                document.getElementById('edit_member_id').value = memberId;
+                document.getElementById('edit_household_id').value = memberData.household_id;
+                document.getElementById('edit_member_name').value = memberData.name_of_children || '';
+                
+                // Format birthdate for input (YYYY-MM-DD)
+                const birthdate = new Date(memberData.birthdate);
+                const formattedDate = birthdate.toISOString().split('T')[0];
+                document.getElementById('edit_member_birthdate').value = formattedDate;
+                
+                document.getElementById('edit_member_age').value = memberData.age || '';
+                document.getElementById('edit_member_sex').value = memberData.sex || '';
+                document.getElementById('edit_member_civil_status').value = memberData.civil_status || '';
+                
+                // Clear any previous errors
+                document.querySelectorAll('#editMemberForm .form-error').forEach(error => {
+                    error.textContent = '';
+                });
+                document.querySelectorAll('#editMemberForm .form-group').forEach(group => {
+                    group.classList.remove('has-error');
+                });
+                
+                // Show modal
+                document.getElementById('editMemberModal').classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeEditMemberModal() {
+                document.getElementById('editMemberModal').classList.remove('active');
+                document.body.style.overflow = '';
+                // Reset form
+                document.getElementById('editMemberForm').reset();
+            }
+
+            function closeEditMemberModalOnOverlay(event) {
+                if (event.target === event.currentTarget) {
+                    closeEditMemberModal();
+                }
+            }
+
+            function calculateEditAge() {
+                const birthdateInput = document.getElementById('edit_member_birthdate');
+                if (birthdateInput.value) {
+                    const birth = new Date(birthdateInput.value);
+                    const today = new Date();
+                    let age = today.getFullYear() - birth.getFullYear();
+                    const monthDiff = today.getMonth() - birth.getMonth();
+                    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+                        age--;
+                    }
+                    document.getElementById('edit_member_age').value = age;
+                }
+            }
+
+            // Delete Member Function
+            function deleteMember(memberId) {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'You are about to delete this household member. This action cannot be undone!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#EF4444',
+                    cancelButtonColor: '#6B7280',
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'Cancel',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Create a form to submit DELETE request
+                        const form = document.createElement('form');
+                        form.method = 'POST';
+                        form.action = `/household-members/${memberId}`;
+                        
+                        // Add CSRF token
+                        const csrfInput = document.createElement('input');
+                        csrfInput.type = 'hidden';
+                        csrfInput.name = '_token';
+                        csrfInput.value = '{{ csrf_token() }}';
+                        form.appendChild(csrfInput);
+                        
+                        // Add method spoofing
+                        const methodInput = document.createElement('input');
+                        methodInput.type = 'hidden';
+                        methodInput.name = '_method';
+                        methodInput.value = 'DELETE';
+                        form.appendChild(methodInput);
+                        
+                        // Append to body and submit
+                        document.body.appendChild(form);
+                        form.submit();
+                    }
                 });
             }
 
