@@ -751,7 +751,7 @@
             </main>
 
         <footer>
-            <p>&copy; {{ date('Y') }} dadwadawdwd Department of Labor and Employment (DOLE). All rights reserved.</p>
+            <p>&copy; {{ date('Y') }} Department of Labor and Employment (DOLE). All rights reserved.</p>
             <p style="margin-top: 0.5rem; font-size: 0.8125rem;">Household Beneficiary Tracking System - Official Government Portal</p>
         </footer>
     </body>
