@@ -1623,15 +1623,15 @@
                         </div>
                     </div>
 
-                    <div class="detail-group">
+                    <div class="detail-group" style="opacity: 0.6; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--color-border);">
                         <div class="detail-row">
                             <div>
-                                <div class="detail-label">Registered Date</div>
-                                <div class="detail-value">${createdAt}</div>
+                                <div class="detail-label" style="font-size: 0.6875rem; font-weight: 500; color: var(--color-dark-gray);">Registered Date</div>
+                                <div class="detail-value" style="font-size: 0.8125rem; color: var(--color-text-light); font-weight: 400;">${createdAt}</div>
                             </div>
                             <div>
-                                <div class="detail-label">Last Updated</div>
-                                <div class="detail-value">${updatedAt}</div>
+                                <div class="detail-label" style="font-size: 0.6875rem; font-weight: 500; color: var(--color-dark-gray);">Last Updated</div>
+                                <div class="detail-value" style="font-size: 0.8125rem; color: var(--color-text-light); font-weight: 400;">${updatedAt}</div>
                             </div>
                         </div>
                     </div>
