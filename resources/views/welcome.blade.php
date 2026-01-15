@@ -685,17 +685,6 @@
                     <p class="hero-description">
                         Comprehensive tracking and management system for household beneficiaries under the Department of Labor and Employment programs. Monitor, update, and manage beneficiary information efficiently.
                     </p>
-                    
-                    <div class="hero-cta">
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="btn btn-primary">
-                                Access System
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="20" height="20">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-                                </svg>
-                            </a>
-                        @endif
-                    </div>
                 </div>
 
                 <div class="hero-visual">
@@ -762,7 +751,7 @@
             </main>
 
         <footer>
-            <p>&copy; {{ date('Y') }} Department of Labor and Employment (DOLE). All rights reserved.</p>
+            <p>&copy; {{ date('Y') }} dadwadawdwd Department of Labor and Employment (DOLE). All rights reserved.</p>
             <p style="margin-top: 0.5rem; font-size: 0.8125rem;">Household Beneficiary Tracking System - Official Government Portal</p>
         </footer>
     </body>

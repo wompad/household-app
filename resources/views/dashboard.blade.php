@@ -846,8 +846,8 @@
 
             <div class="header-actions">
                 <div class="user-menu">
-                    <div class="user-avatar">U</div>
-                    <span style="font-size: 0.875rem;">Administrator</span>
+                    <div class="user-avatar">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</div>
+                    <span style="font-size: 0.875rem;">{{ auth()->user()->name }}</span>
                 </div>
                 <form method="POST" action="{{ route('logout') }}" style="display: inline;">
                     @csrf
