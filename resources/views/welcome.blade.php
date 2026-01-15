@@ -770,9 +770,6 @@
                                     <span class="checkmark"></span>
                                     <span>Remember me</span>
                                 </label>
-                                @if (Route::has('password.request'))
-                                    <a href="{{ route('password.request') }}" class="forgot-link">Forgot password?</a>
-                                @endif
                 </div>
                             
                             <button type="submit" class="btn btn-primary btn-full">
